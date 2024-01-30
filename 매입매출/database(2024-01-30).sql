@@ -15,8 +15,8 @@ DB를 새로 설치할 경우 사전에 기존의 사용하던 DB 를
     백업할때의 Databas Schema 와 같은 이름으로
     Database 를 생성해 둔다
 */
-DROP DATABASE ecountDB;
-CREATE DATABASE ecountdb;
+-- DROP DATABASE ecountDB;
+-- CREATE DATABASE ecountdb;
 
 
 USE ecountDB;
@@ -195,3 +195,10 @@ sum(io_quan * io_oprice) as 매출합산
 from view_iolist
 where io_div='1'
 group by io_div;
+
+CREATE TABLE tbl_members(
+username varchar(15) primary Key,
+password varchar(125) not null,
+realname varchar(20),
+tel varchar(15),
+role varchar(5))

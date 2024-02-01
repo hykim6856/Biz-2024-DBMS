@@ -196,9 +196,10 @@ from view_iolist
 where io_div='1'
 group by io_div;
 
+DROP TABLE tbl_members;
 CREATE TABLE tbl_members(
-username varchar(15) primary Key,
-password varchar(125) not null,
-realname varchar(20),
-tel varchar(15),
-role varchar(5))
+m_username varchar(15) primary Key,
+m_password varchar(125) not null,
+m_realname varchar(20),
+m_tel varchar(15),
+m_role varchar(5))

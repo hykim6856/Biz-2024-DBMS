@@ -42,25 +42,34 @@ CREATE TABLE tbl_order_list (
 -- 주문내역
 CREATE TABLE tbl_order (
     o_code VARCHAR(6),
-    o_pcode VARCHAR(6)
+    o_pcode VARCHAR(6),
+    PRIMARY KEY (o_code, o_pcode)
     );
 
-ALTER TABLE tbl_order
-ADD CONSTRAINT fk_customer_code 
-FOREIGN KEY (o_ccode) 
-REFERENCES tbl_custom(c_code);
+-- 임시주문내역
+CREATE TABLE tbl_temp_order (
+    o_code VARCHAR(6),
+    o_pcode1 VARCHAR(6),
+    o_pcode2 VARCHAR(6),
+    o_pcode3 VARCHAR(6)
+    );
+
+
+
 
 
 select * from tbl_custom;
 select * from tbl_product;
+select * from tbl_order;
+select * from tbl_temp_order;
 select * from tbl_order_list;
 SHOW INDEX FROM tbl_order_list;
 
 
 SELECT * FROM (
-SELECT o_code AS 주문코드, o_pcode1 AS 상품코드 FROM tbl_order WHERE o_pcode1 IS NOT NULL GROUP BY o_code, o_pcode1 UNION
-SELECT o_code, o_pcode2 FROM tbl_order WHERE o_pcode2 IS NOT NULL GROUP BY o_code, o_pcode2 UNION
-SELECT o_code, o_pcode3 FROM tbl_order WHERE o_pcode3 IS NOT NULL GROUP BY o_code, o_pcode3
+SELECT o_code AS 주문코드, o_pcode1 AS 상품코드 FROM tbl_temp_order WHERE o_pcode1 IS NOT NULL GROUP BY o_code, o_pcode1 UNION
+SELECT o_code, o_pcode2 FROM tbl_temp_order WHERE o_pcode2 IS NOT NULL GROUP BY o_code, o_pcode2 UNION
+SELECT o_code, o_pcode3 FROM tbl_temp_order WHERE o_pcode3 IS NOT NULL GROUP BY o_code, o_pcode3
 ) AS 주문내역
 ORDER BY 주문코드, 상품코드;
 
@@ -70,8 +79,8 @@ ALTER TABLE tbl_order
 ADD CONSTRAINT fk_o_code FOREIGN KEY (o_code) REFERENCES tbl_order_list(ol_code);
 
 -- tbl_custom 테이블에 외래 키 제약 조건 추가
-ALTER TABLE tbl_custom
-ADD CONSTRAINT fk_c_code FOREIGN KEY (c_code) REFERENCES tbl_order_list(ol_ccode);
+ALTER TABLE tbl_order_list
+ADD CONSTRAINT fk_c_code FOREIGN KEY (ol_ccode) REFERENCES tbl_custom(c_code);
 
 -- tbl_order 테이블에 외래 키 제약 조건 추가
 ALTER TABLE tbl_order
